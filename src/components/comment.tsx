@@ -58,11 +58,14 @@ export const Comment = ({ topic }: { topic: Topic }) => {
       </button>
       <ul>
         {comments?.reverse().map((com) => (
-          <li key={com.id}>
+          <li
+            key={com.id}
+            className="my-1 rounded-md p-2 odd:bg-blue-50 even:bg-slate-50"
+          >
             <p>
               Commented by <strong>{com.title}</strong>
             </p>
-            <p>{com.content}</p>
+            <p className="ml-10">{com.content}</p>
           </li>
         ))}
       </ul>
