@@ -67,7 +67,7 @@ export const Content = () => {
               </Link>
               <button
                 className="translate-x-20 cursor-pointer overflow-hidden rounded-md bg-red-500 p-1 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100"
-                onClick={(e) =>
+                onClick={() =>
                   deleteTopic.mutate({
                     id: topic.id,
                   })
