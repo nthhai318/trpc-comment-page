@@ -2,6 +2,7 @@ import { useSession } from "next-auth/react";
 import { api, type RouterOutputs } from "~/utils/api";
 import Link from "next/link";
 import { useState } from "react";
+import { Comment } from "./comment";
 
 type Topic = RouterOutputs["topic"]["getAll"][0];
 
@@ -52,14 +53,13 @@ export const Content = () => {
             <li
               key={topic.id}
               className={`group flex items-center rounded-md p-1  ${
-                topic == selectedTopic ? "selected-topic" : "hover:bg-gray-200"
+                topic === selectedTopic ? "selected-topic" : "hover:bg-gray-200"
               }`}
             >
               <Link
                 className="flex-1 p-1"
                 href="#"
                 onClick={(e) => {
-                  e.preventDefault();
                   setSelectedTopic(topic);
                 }}
               >
@@ -79,7 +79,9 @@ export const Content = () => {
           ))}
         </ul>
       </div>
-      <div className="col-span-3"></div>
+      <div className="col-span-3">
+        {selectedTopic && sessionData && <Comment topic={selectedTopic} />}
+      </div>
     </div>
   );
 };
