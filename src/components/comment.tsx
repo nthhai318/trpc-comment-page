@@ -13,7 +13,7 @@ export const Comment = ({ topic }: { topic: Topic }) => {
     { enabled: sessionData?.user !== undefined }
   );
 
-  comment;
+  comments?.sort((a, b) => (a.updatedAt < b.updatedAt ? 1 : -1));
 
   const createComment = api.note.create.useMutation({
     onSuccess: () => {
@@ -38,9 +38,6 @@ export const Comment = ({ topic }: { topic: Topic }) => {
         rows={3}
         onChange={(e) => {
           setComment(e.target.value);
-          console.log("comment: ", e.target.value);
-          console.log("title: ", sessionData?.user.name);
-          console.log("topicId: ", topic.id);
         }}
       />
       <button
@@ -57,13 +54,16 @@ export const Comment = ({ topic }: { topic: Topic }) => {
         Submit Comment
       </button>
       <ul>
-        {comments?.reverse().map((com) => (
+        {comments?.slice(0, 9).map((com) => (
           <li
             key={com.id}
-            className="my-1 rounded-md p-2 odd:bg-blue-50 even:bg-slate-50"
+            className="my-1 w-3/4 rounded-md p-2 odd:bg-blue-50 even:bg-slate-50"
           >
             <p>
               Commented by <strong>{com.title}</strong>
+            </p>
+            <p>
+              <em>{com.createdAt.toString()}</em>
             </p>
             <p className="ml-10">{com.content}</p>
           </li>

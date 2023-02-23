@@ -11,11 +11,12 @@ export const Content = () => {
   const [selectedTopic, setSelectedTopic] = useState<Topic | null>(null);
 
   const { data: topics, refetch: refetchTopics } = api.topic.getAll.useQuery(
-    undefined, //no input
+    undefined,
     {
       enabled: sessionData?.user !== undefined,
-      onSuccess: (data) => {
-        setSelectedTopic(selectedTopic ?? data[0] ?? null);
+      onSuccess: (topics) => {
+        topics?.sort((a, b) => (a.updatedAt < b.updatedAt ? 1 : -1));
+        setSelectedTopic(selectedTopic ?? topics[0] ?? null);
       },
     }
   );
@@ -45,6 +46,7 @@ export const Content = () => {
                 title: e.currentTarget.value,
               });
               e.currentTarget.value = "";
+              console.log("selected topic after create: ", selectedTopic);
             }
           }}
         />
@@ -60,6 +62,7 @@ export const Content = () => {
                 className="flex-1 p-1"
                 href="#"
                 onClick={(e) => {
+                  e.preventDefault();
                   setSelectedTopic(topic);
                 }}
               >
@@ -67,11 +70,12 @@ export const Content = () => {
               </Link>
               <button
                 className="translate-x-20 cursor-pointer overflow-hidden rounded-md bg-red-500 p-1 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100"
-                onClick={() =>
+                onClick={() => {
                   deleteTopic.mutate({
                     id: topic.id,
-                  })
-                }
+                  });
+                  console.log("selected topic after delete: ", selectedTopic);
+                }}
               >
                 Delete
               </button>
