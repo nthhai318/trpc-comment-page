@@ -46,7 +46,6 @@ export const Content = () => {
                 title: e.currentTarget.value,
               });
               e.currentTarget.value = "";
-              console.log("selected topic after create: ", selectedTopic);
             }
           }}
         />
@@ -54,8 +53,10 @@ export const Content = () => {
           {topics?.map((topic) => (
             <li
               key={topic.id}
-              className={`group flex items-center rounded-md p-1  ${
-                topic === selectedTopic ? "selected-topic" : "hover:bg-gray-200"
+              className={`group relative flex items-center rounded-md p-1  ${
+                topic.id == selectedTopic?.id
+                  ? "selected-topic"
+                  : "hover:bg-gray-200"
               }`}
             >
               <Link
@@ -66,15 +67,17 @@ export const Content = () => {
                   setSelectedTopic(topic);
                 }}
               >
-                {topic.title}
+                <p className="whitespace-nowrap">{topic.title}</p>
               </Link>
               <button
-                className="translate-x-20 cursor-pointer overflow-hidden rounded-md bg-red-500 p-1 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100"
+                className="absolute right-1 translate-x-20 cursor-pointer overflow-hidden rounded-md bg-red-500 p-1 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100"
                 onClick={() => {
                   deleteTopic.mutate({
                     id: topic.id,
                   });
-                  console.log("selected topic after delete: ", selectedTopic);
+                  if (topic.id == selectedTopic?.id) {
+                    setSelectedTopic(null);
+                  }
                 }}
               >
                 Delete

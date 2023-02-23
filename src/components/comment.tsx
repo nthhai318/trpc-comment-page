@@ -44,7 +44,7 @@ export const Comment = ({ topic }: { topic: Topic }) => {
         className="mr-auto rounded-md bg-blue-300 p-2"
         onClick={() => {
           createComment.mutate({
-            title: sessionData?.user.name,
+            title: sessionData?.user.name ?? "",
             content: comment,
             topicId: topic.id,
           });
